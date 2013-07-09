@@ -18,6 +18,9 @@ class nginx {
   service {
     'nginx':
       ensure => running,
+      enable => true,
+      hasstatus => true,
+      hasrestart => true,
       require => Package['nginx'];
   }
 
@@ -26,17 +29,37 @@ class nginx {
       ensure => link,
       target => "/vagrant",
       notify => Service['nginx'],
-      force  => true
+      force  => true;
   }
 
   file { 
     '/etc/nginx/sites-enabled/default':
       ensure => absent,
+      require => Package['nginx'],
+      notify => Service['nginx'];
   }
 
   file { 
     '/etc/nginx/nginx.conf':
       ensure  => file,
       content => template('nginx/nginx.conf.erb'),
+      require => Package['nginx'],
+      notify => Service['nginx'];
+  }
+
+  file { 
+    '/etc/nginx/fastcgi_params':
+      ensure  => file,
+      content => template('nginx/fastcgi_params.erb'),
+      require => Package['nginx'],
+      notify => Service['nginx'];;
+  }
+
+  file { 
+    '/etc/nginx/security':
+      ensure  => file,
+      content => template('nginx/security.erb'),
+      require => Package['nginx'],
+      notify => Service['nginx'];;
   }
 }

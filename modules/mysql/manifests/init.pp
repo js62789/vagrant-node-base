@@ -7,6 +7,9 @@ class mysql {
   service { 
     'mysql':
       ensure => running,
+      enable => true,
+      hasstatus => true,
+      hasrestart => true,
       require => Package["mysql-server"];
   }
  
@@ -16,6 +19,5 @@ class mysql {
       path    => ["/bin", "/usr/bin"],
       command => "mysqladmin -uroot password root",
       require => Service["mysql"];
- 
   }
 }
