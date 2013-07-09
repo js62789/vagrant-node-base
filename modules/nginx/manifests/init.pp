@@ -52,7 +52,7 @@ class nginx {
       ensure  => file,
       content => template('nginx/fastcgi_params.erb'),
       require => Package['nginx'],
-      notify => Service['nginx'];;
+      notify => Service['nginx'];
   }
 
   file { 
@@ -60,6 +60,6 @@ class nginx {
       ensure  => file,
       content => template('nginx/security.erb'),
       require => Package['nginx'],
-      notify => Service['nginx'];;
+      notify => Service['nginx'];
   }
 }
